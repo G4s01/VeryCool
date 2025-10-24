@@ -3,6 +3,8 @@ node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+# Mantieni package.json; ignora il lock se vuoi:
+package-lock.json
 
 # Build / output
 dist/
@@ -48,10 +50,13 @@ ehthumbs.db
 *.swp
 *.tmp
 
-# Local scripts / dev-only
+# Local/dev-only files
 dev.bat
 proxy.js
-package-lock.json
-
-# If you really want to ignore package.json (not recommended), uncomment:
 package.json
+package-lock.json
+commit-push.ps1
+.gitignore
+*.ps1
+*.bat
+*.cmd
