@@ -3,7 +3,6 @@ node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-package-lock.json  # (opzionale: generalmente si committa; tienilo se vuoi lock deterministico)
 
 # Build / output
 dist/
@@ -49,6 +48,10 @@ ehthumbs.db
 *.swp
 *.tmp
 
-# Local scripts (if you prefer to not version them)
-*.bat        # uncomment if you don't want dev.bat tracked
-# scripts/*.ps1   # PowerShell helper scripts (optional)
+# Local scripts / dev-only
+dev.bat
+proxy.js
+package-lock.json
+
+# If you really want to ignore package.json (not recommended), uncomment:
+package.json
