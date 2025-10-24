@@ -1,0 +1,265 @@
+{
+  "MNPxALL": {
+    "PO_Very_140425_MNP_WB": {
+      "label": "€4.99 WINBACK_C",
+      "desc": [
+        "📱 MNPxALL",
+        "🎁 MIN, SMS ILL e 200GB in 5G_FS",
+        "💰 4.99€/mese + 1 OMAGGIO",
+        "🌐 https://verymobile.it/promo-499c",
+        "🎫 ID: PO_Very_140425_MNP_WB",
+        "📆 SCADENZA: 21/10"
+      ]
+    },
+    "PO_Very_171124_MNP_A_WB": {
+      "label": "€4.99 WINBACK_D",
+      "desc": [
+        "📱 MNPxALL",
+        "🎁 MIN, SMS ILL e 200GB in 5G_FS",
+        "💰 4.99€/mese + 2 OMAGGIO",
+        "🌐 https://verymobile.it/promo-499d",
+        "🎫 ID: PO_Very_171124_MNP_A_WB",
+        "📆 SCADENZA: 26/10"
+      ]
+    },
+    "PO_Very_250523_A_MNP_WB": {
+      "label": "€5.99 SPECIAL4",
+      "desc": [
+        "📱 MNPxALL",
+        "🎁 MIN, SMS ILL e 150GB in 5G",
+        "💰 5.99€/mese",
+        "🌐 https://verymobile.it/599-special4",
+        "🎫 ID: PO_Very_250523_A_MNP_WB",
+        "📆 SCADENZA: 26/10"
+      ]
+    }
+  },
+
+  "MNP": {
+    "PO_Very_200125_MNP_WB": {
+      "label": "€5.99 SPECIAL3",
+      "desc": [
+        "📱 MNP",
+        "🎁 MIN, SMS ILL e 200GB in 5G_FS",
+        "💰 5.99€/mese",
+        "🌐 https://verymobile.it/599-special3",
+        "🎫 ID: PO_Very_200125_MNP_WB",
+        "📆 SCADENZA: 19/10"
+      ]
+    },
+    "PO_Very_030625_B_MNP1": {
+      "label": "€4.99 ESCLUSIVA",
+      "desc": [
+        "📱 MNP",
+        "🎁 MIN, SMS e 150GB in 5G",
+        "💰 4.99€/mese + 0.99€ ATTIVAZIONE + 1 OMAGGIO",
+        "🌐 https://verymobile.it/offerte/very-esclusiva",
+        "🎫 ID: PO_Very_030625_B_MNP1",
+        "📆 SCADENZA: 30/10"
+      ]
+    },
+    "PO_Very_190525_MNP1": {
+      "label": "€4.99 VOCE",
+      "desc": [
+        "📱 MNP",
+        "🎁 MIN, SMS e 20GB in 5G",
+        "💰 4.99€/mese + 0.99€ ATTIVAZIONE",
+        "🌐 https://verymobile.it/offerte/very-499-voce",
+        "🎫 ID: PO_Very_190525_MNP1",
+        "📆 SCADENZA: 30/10"
+      ]
+    },
+    "PO_Very_101124_B_MNP1": {
+      "label": "€5.99 FS",
+      "desc": [
+        "📱 MNP",
+        "🎁 MIN, SMS ILL e 150GB in 5G_FS",
+        "💰 5.99€/mese",
+        "🎫 ID: PO_Very_101124_B_MNP1",
+        "📆 SCADUTA"
+      ]
+    },
+    "PO_Very_100225_MNP1": {
+      "label": "€5.99 META1",
+      "desc": [
+        "📱 MNP",
+        "🎁 MIN, SMS ILL e 200GB in 5G",
+        "💰 5.99€/mese",
+        "🌐 https://verymobile.it/offerte/promo-meta1",
+        "🎫 ID: PO_Very_100225_MNP1",
+        "📆 SCADENZA: 30/10"
+      ]
+    },
+    "PO_Very_190525_B_MNP1": {
+      "label": "€6.99",
+      "desc": [
+        "📱 MNP",
+        "🎁 MIN, SMS e 200GB in 5G",
+        "💰 6.99€/mese + 0.99€ ATTIVAZIONE",
+        "🌐 https://verymobile.it/offerte/very-699",
+        "🎫 ID: PO_Very_190525_B_MNP1",
+        "📆 SCADENZA: 30/10"
+      ]
+    },
+    "PO_Very_190525_C_MNP1": {
+      "label": "€7.99",
+      "desc": [
+        "📱 MNP",
+        "🎁 MIN, SMS e 300GB in 5G",
+        "💰 7.99€/mese + 0.99€ ATTIVAZIONE",
+        "🌐 https://verymobile.it/offerte/very-799",
+        "🎫 ID: PO_Very_190525_C_MNP1",
+        "📆 SCADENZA: 30/10"
+      ]
+    },
+    "PO_Very_190525_D_MNP1": {
+      "label": "€9.99",
+      "desc": [
+        "📱 MNP",
+        "🎁 MIN, SMS e 440GB in 5G_FS",
+        "💰 9.99€/mese + 0.99€ ATTIVAZIONE",
+        "🌐 https://verymobile.it/offerte/very-999",
+        "🎫 ID: PO_Very_190525_D_MNP1",
+        "📆 SCADENZA: 30/10"
+      ]
+    },
+    "PO_Very_210923_UNL_MNP1": {
+      "label": "€9.99 UNLIMITED",
+      "desc": [
+        "📱 MNP",
+        "🎁 MIN, SMS e DATI ILLIMITATI, 5G_FS",
+        "💰 9.99€/mese",
+        "🎫 ID: PO_Very_210923_UNL_MNP1",
+        "📆 SCADUTA"
+      ]
+    }
+  },
+
+  "TIM, VODAFONE, WIND3": {
+    "PO_Very_190525_MNP8": {
+      "label": "€11.99",
+      "desc": [
+        "📱 MNP",
+        "🎁 MIN, SMS ILL e 200GB in 5G_FS",
+        "💰 11.99€/mese + 0.99€ ATTIVAZIONE",
+        "🌐 https://verymobile.it/offerte/very-1199",
+        "🎫 ID: PO_Very_190525_MNP8",
+        "📆 SCADENZA: 30/10"
+      ]
+    },
+    "PO_Very_190525_A_MNP8": {
+      "label": "€12.99",
+      "desc": [
+        "📱 MNP",
+        "🎁 MIN, SMS ILL e 300GB in 5G_FS",
+        "💰 12.99€/mese + 0.99€ ATTIVAZIONE",
+        "🌐 https://verymobile.it/offerte/very-1299",
+        "🎫 ID: PO_Very_190525_A_MNP8",
+        "📆 SCADENZA: 30/10"
+      ]
+    },
+    "PO_Very_190525_B_MNP8": {
+      "label": "€13.99",
+      "desc": [
+        "📱 MNP",
+        "🎁 MIN, SMS ILL e 440GB in 5G_FS",
+        "💰 13.99€/mese + 0.99€ ATTIVAZIONE",
+        "🌐 https://verymobile.it/offerte/very-1399",
+        "🎫 ID: PO_Very_190525_B_MNP8",
+        "📆 SCADENZA: 30/10"
+      ]
+    }
+  },
+
+  "NUOVO NUMERO": {
+    "PO_Very_010425_A_GA": {
+      "label": "€5.99 IMPERDIBILE",
+      "desc": [
+        "📱 NUOVO NUMERO",
+        "🎁 MIN ILL, 200 SMS e 150GB in 5G",
+        "💰 5.99€/mese + 4.99€ ATTIVAZIONE",
+        "🌐 https://verymobile.it/offerte/very-imperdibile",
+        "🎫 ID: PO_Very_010425_A_GA",
+        "📆 Scadenza: N/D"
+      ]
+    },
+    "PO_Very_010425_B_GA": {
+      "label": "€6.99",
+      "desc": [
+        "📱 NUOVO NUMERO",
+        "🎁 MIN ILL, 200 SMS e 200GB in 5G",
+        "💰 6.99€/mese + 4.99€ ATTIVAZIONE",
+        "🌐 https://verymobile.it/offerte/very-699-nuovi-numeri",
+        "🎫 ID: PO_Very_010425_B_GA",
+        "📆 Scadenza: 30/10"
+      ]
+    },
+    "PO_Very_010425_C_GA": {
+      "label": "€7.99",
+      "desc": [
+        "📱 NUOVO NUMERO",
+        "🎁 MIN ILL, 200 SMS e 300GB in 5G",
+        "💰 7.99€/mese + 4.99€ ATTIVAZIONE",
+        "🌐 https://verymobile.it/offerte/very-799-nuovi-numeri",
+        "🎫 ID: PO_Very_010425_C_GA",
+        "📆 Scadenza: 30/10"
+      ]
+    },
+    "PO_Very_010425_D_GA": {
+      "label": "€9.99",
+      "desc": [
+        "📱 NUOVO NUMERO",
+        "🎁 MIN ILL, 200 SMS e 440GB in 5G_FS",
+        "💰 9.99€/mese + 4.99€ ATTIVAZIONE",
+        "🌐 https://verymobile.it/offerte/very-999-nuovi-numeri",
+        "🎫 ID: PO_Very_010425_D_GA",
+        "📆 Scadenza: 30/10"
+      ]
+    },
+    "PO_Very_RicAut_Mand_150625_DO_A_GA": {
+      "label": "€12.99 XL",
+      "desc": [
+        "📱 NUOVO NUMERO",
+        "🎁 1000GB in 5G_FS",
+        "💰 12.99€/mese + 9.99€ ATTIVAZIONE",
+        "🌐 https://verymobile.it/offerte/very-1299-nuovi-numeri",
+        "🎫 ID: PO_Very_RicAut_Mand_150625_DO_A_GA",
+        "📆 Scadenza: 30/10"
+      ]
+    },
+    "PO_Very_RicAut_Mand_150625_DO_B_GA": {
+      "label": "€14.99 XL",
+      "desc": [
+        "📱 NUOVO NUMERO",
+        "🎁 DATI ILL in 5G_FS",
+        "💰 14.99€/mese + 9.99€ ATTIVAZIONE",
+        "🌐 https://verymobile.it/offerte/very-giga-illimitati",
+        "🎫 ID: PO_Very_RicAut_Mand_150625_DO_B_GA",
+        "📆 Scadenza: 30/10"
+      ]
+    }
+  },
+
+  "IoT": {
+    "PO_Very_RicAut_Mand_DO_IOT_150625_A_GA": {
+      "label": "€1.99 THINGS XL",
+      "desc": [
+        "📱 NUOVO NUMERO, IoT",
+        "🎁 2GB, 5G_FS",
+        "💰 1.99€/mese + 9.99€ ATTIVAZIONE",
+        "🎫 ID: PO_Very_RicAut_Mand_DO_IOT_150625_A_GA",
+        "📆 SCADENZA: 30/10"
+      ]
+    },
+    "PO_Very_RicAut_Mand_DO_IOT_150625_B_GA": {
+      "label": "€3.99 THINGS XL",
+      "desc": [
+        "📱 NUOVO NUMERO, IoT",
+        "🎁 10GB, 5G_FS",
+        "💰 3.99€/mese + 9.99€ ATTIVAZIONE",
+        "🎫 ID: PO_Very_RicAut_Mand_DO_IOT_150625_B_GA",
+        "📆 SCADENZA: 30/10"
+      ]
+    }
+  }
+}

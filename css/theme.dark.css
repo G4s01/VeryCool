@@ -1,0 +1,29 @@
+/* theme.dark.css
+   Optional explicit dark-theme overrides. Include this file (instead of or after theme.css)
+   to enforce the dark theme variables explicitly.
+*/
+body.dark {
+  --neon: #00ffa3;
+  --neon-2: #34ffd1;
+  --accent: #7aebff;
+  --muted: #6b8a86;
+
+  --bg-0: #0b1110;
+  --bg-1: #0f1a19;
+  --bg-2: #12201e;
+  --bg-3: #0c1514;
+
+  --text: #e8fffb;
+  --text-dim: #b4d7d0;
+  --link: #00ffa3;
+
+  --error: #ff5577;
+  --warn: #ffcc66;
+  --ok: #23d18b;
+
+  --shadow: 0 10px 28px rgba(0,0,0,.4);
+  --glow-color: rgba(0,255,163,.35);
+
+  --hover-scale: 1.02;
+  --hover-shadow-strength: 0.18;
+}

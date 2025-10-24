@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>VeryCool⚡💚</title>
+  <meta name="theme-color" content="#0d1716" id="metaThemeColor" />
+
+  <!-- Theme variables (load first) -->
+  <link rel="stylesheet" href="./css/theme.css">
+  <!-- Optional explicit theme (uncomment to force light theme at load) -->
+  <!-- <link rel="stylesheet" href="./css/theme.light.css"> -->
+
+  <!-- Layout / components / animations -->
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body class="grid-bg">
+  <main class="container" role="main">
+    <header class="header" aria-label="Intestazione">
+      <div class="header-bar">
+        <button id="themeToggle" class="theme-toggle" type="button" aria-label="Cambia tema">🌙</button>
+        <div class="title">
+          <div class="logo-mark" aria-hidden="true"></div>
+          <div class="brand">
+            <span class="name"><span class="very">Very</span><span class="cool">Cool</span></span>
+            <span class="love">⚡💚</span>
+          </div>
+        </div>
+        <div class="header-spacer" aria-hidden="true"></div>
+      </div>
+    </header>
+
+    <section class="panel" aria-label="Controlli">
+      <div class="controls">
+        <div class="control">
+          <label for="offerSelect">OFFERTA?</label>
+          <select id="offerSelect" autocomplete="off">
+            <option value="">— SELEZIONA —</option>
+
+            <optgroup label="MNPxALL">
+              <!-- options loaded dynamically from ./data/offers.json -->
+            </optgroup>
+
+            <optgroup label="MNP">
+              <!-- options loaded dynamically from ./data/offers.json -->
+            </optgroup>
+
+            <optgroup label="NUOVO NUMERO">
+              <!-- options loaded dynamically from ./data/offers.json -->
+            </optgroup>
+
+            <optgroup label="TIM, VODAFONE, WIND3">
+              <!-- options loaded dynamically from ./data/offers.json -->
+            </optgroup>
+
+            <optgroup label="IoT">
+              <!-- options loaded dynamically from ./data/offers.json -->
+            </optgroup>
+          </select>
+        </div>
+
+        <div class="control">
+          <label for="customOffer">OFFERTA ASSENTE?</label>
+          <input id="customOffer" type="text" placeholder="CODICE OFFERTA" inputmode="latin" />
+        </div>
+
+        <div class="control">
+          <label for="simType">SIM?</label>
+          <select id="simType">
+            <option value="standard" selected>SIM</option>
+            <option value="e-sim">eSIM</option>
+            <option value="idle-sim">idleSIM</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="generate-row">
+        <button id="generateBtn" class="btn" type="button">GENERA</button>
+      </div>
+
+      <div class="notice error" id="selectionError" style="display:none">⚠️SELEZIONA O INSERISCI OFFERTA!</div>
+      <div class="notice error" id="corsHint" style="display:none">⚠️PROBLEMA DI RETE/CORS. PROVA IN LOCALE O CON PROXY CORS.</div>
+
+      <div id="offerDescription" class="desc" aria-live="polite"></div>
+    </section>
+
+    <section class="results" aria-label="Risultati">
+      <div class="results-header">
+        <button id="clearAllBtn" class="trash-btn" type="button" aria-label="Svuota tutti i link generati">
+          🗑️ <span class="num" id="resCount">0</span>
+        </button>
+      </div>
+      <div id="linksContainer" class="scroll" role="feed" aria-busy="false" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <!-- scripts: loader, theme toggle, utils, api-client, ui, orchestrator -->
+  <script src="./js/offers-loader.js"></script>
+  <script src="./js/theme-toggle.js"></script>
+  <script src="./js/utils.js"></script>
+  <script src="./js/api-client.js"></script>
+  <script src="./js/ui.js"></script>
+  <script src="./js/link-generator.js"></script>
+</body>
+</html>

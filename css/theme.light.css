@@ -1,0 +1,29 @@
+/* theme.light.css
+   Optional explicit light-theme overrides. Include this file (instead of or after theme.css)
+   to apply the light theme.
+*/
+body.light {
+  --neon: #00a877;
+  --neon-2: #5fe2b6;
+  --accent: #268ea0;
+  --muted: #57736d;
+
+  --bg-0: #f7fffd;
+  --bg-1: #f3fffb;
+  --bg-2: #ffffff;
+  --bg-3: #f9fffd;
+
+  --text: #0f1a19;
+  --text-dim: #33524b;
+  --link: #007a59;
+
+  --error: #b91f3b;
+  --warn: #b37a00;
+  --ok: #03693f;
+
+  --shadow: 0 8px 22px rgba(0,0,0,.08);
+  --glow-color: rgba(0,190,140,.28);
+
+  --hover-scale: 1.01;
+  --hover-shadow-strength: 0.12;
+}

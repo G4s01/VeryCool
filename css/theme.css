@@ -1,0 +1,50 @@
+/* theme.css
+   Global CSS variables (default values) and default dark-theme overrides.
+   Load this BEFORE css/style.css so style.css can use the variables.
+   You can optionally include theme.light.css or theme.dark.css to explicitly
+   override the theme at runtime or for separate builds.
+*/
+
+/* Default variables (dark-mode oriented defaults) */
+:root{
+  --neon: #00ffa3;
+  --neon-2: #34ffd1;
+  --accent: #7aebff;
+  --muted: #6b8a86;
+
+  --bg-0: #0b1110;
+  --bg-1: #0f1a19;
+  --bg-2: #12201e;
+  --bg-3: #0c1514;
+
+  --text: #e8fffb;
+  --text-dim: #b4d7d0;
+  --link: #00ffa3;
+
+  --error: #ff5577;
+  --warn: #ffcc66;
+  --ok: #23d18b;
+
+  --shadow: 0 10px 28px rgba(0,0,0,.4);
+  --btn-grad: linear-gradient(90deg,var(--neon),var(--neon-2));
+  --offerid-max: clamp(260px, 55vw, 680px);
+  --glow-color: rgba(0,255,163,.35);
+
+  /* accessibility tweak: reduce animation intensity if needed via CSS var */
+  --hover-scale: 1.02;
+  --hover-shadow-strength: 0.18;
+}
+
+/* Default "dark" overrides (applied when you want body.dark semantics) */
+body.dark {
+  /* explicit mapping for clarity — these match the :root defaults for dark */
+  --bg-0: #0b1110;
+  --bg-1: #0f1a19;
+  --bg-2: #12201e;
+  --bg-3: #0c1514;
+  --text: #e8fffb;
+  --text-dim: #b4d7d0;
+  --muted: #6b8a86;
+  --shadow: 0 10px 28px rgba(0,0,0,.4);
+  --glow-color: rgba(0,255,163,.35);
+}
