@@ -56,7 +56,7 @@ proxy.js
 package.json
 package-lock.json
 commit-push.ps1
-.gitignore
+*.gitignore
 *.ps1
 *.bat
 *.cmd
