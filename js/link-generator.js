@@ -102,6 +102,7 @@
     };
 
     try {
+      // Api.tryFetchWithFallback now implements sticky/fallback and returns parsed response
       const response = await Api.tryFetchWithFallback(request);
       const links = U.urlifyFromObject(response || {});
       addCard({ offerId, sim, urlList: links, request, response, error: null });
@@ -117,6 +118,12 @@
       UI.toast('Richiesta fallita (CORS o rete)', 'error');
       // keep console error for developer visibility
       console.error('generate error', err);
+      // optionally show a hint about CORS/proxy selection
+      if (corsHint) {
+        corsHint.style.display = 'block';
+        const sticky = (Api._diagnostics && Api._diagnostics.getSticky) ? Api._diagnostics.getSticky() : null;
+        corsHint.textContent = sticky ? `Ultimo canale funzionante: ${sticky}` : 'Nessun canale proxy funzionante al momento.';
+      }
     } finally {
       if (generateBtn) { generateBtn.disabled = false; generateBtn.textContent = 'GENERA'; }
     }
