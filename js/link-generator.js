@@ -85,12 +85,19 @@
     hide: hideSelectionError
   };
 
-  // expose renderOfferDesc for offers-loader.js compatibility
+  // renderOfferDesc: show label in bold + offer id in parentheses with .offer-id class
   window.renderOfferDesc = function renderOfferDesc(id){
     const offers = window.OFFERS || {};
-    if (!id || !offers[id]) { if (offerDescription) { offerDescription.style.display = 'none'; offerDescription.innerHTML = ''; } return; }
+    if (!id || !offers[id]) {
+      if (offerDescription) { offerDescription.style.display = 'none'; offerDescription.innerHTML = ''; }
+      return;
+    }
     if (offerDescription) {
-      offerDescription.innerHTML = `<strong>${offers[id].label}</strong><br>${offers[id].desc || ''}`;
+      const label = offers[id].label || id;
+      const escapedLabel = U.escapeHtml(label);
+      const escapedId = U.escapeHtml(id);
+      const descHtml = offers[id].desc || '';
+      offerDescription.innerHTML = `<strong>${escapedLabel}</strong><span class="offer-id">(${escapedId})</span><br>${descHtml}`;
       offerDescription.style.display = 'block';
     }
   };
@@ -210,7 +217,10 @@
       if (!links.length) {
         const preview = typeof response === 'object' ? JSON.stringify(response, null, 2) : String(response);
         if (offerDescription) {
-          offerDescription.innerHTML = `<strong>Risposta</strong><pre style="max-height:220px;overflow:auto">${U.escapeHtml(preview)}</pre>`;
+          // show the label and id (if available) then the preview
+          const offers = window.OFFERS || {};
+          const label = (offers[offerId] && offers[offerId].label) ? offers[offerId].label : offerId;
+          offerDescription.innerHTML = `<strong>${U.escapeHtml(label)}</strong><span class="offer-id">(${U.escapeHtml(offerId)})</span><br><pre style="max-height:220px;overflow:auto">${U.escapeHtml(preview)}</pre>`;
           offerDescription.style.display = 'block';
         }
       }
@@ -239,6 +249,8 @@
 
   // initial UI wiring
   // initialize any existing tag.long marquee(s)
-  document.querySelectorAll('.tag.long').forEach(el => UI.setupOfferIdMarquee(el));
+  document.querySelectorAll('.tag.long').forEach(el => {
+    try { UI.setupOfferIdMarquee(el); } catch(e) {}
+  });
   updateCount();
 })();

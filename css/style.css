@@ -1,35 +1,26 @@
-/* style.css
-   Layout, components and animations.
-   Background moved to html and min-height rules added to prevent white gaps on mobile
-   when the document grows dynamically.
+/* ============================================================================
+   style.css — Unificato dal file allegato + fix richiesti
+   - Meta/OfferID/SIM: altezza allineata alle azioni, marquee reattiva
+   - Link: marquee responsive con pausa on hover, centrato verticalmente
+   - Colonna azioni shrinkable (minmax) per non tagliare ✕/JSON su schermi stretti
+   - Cestino ✕: glow/hover ripristinati, icona vettoriale
+   - Toggle tema: hover/animazioni ripristinate
+   - JSON full‑width (span su entrambe le colonne)
+   ============================================================================ */
 
-   NOTE: body background is intentionally TRANSPARENT so the html background (gradient)
-   and the fixed grid overlay show uniformly across the page. Panel/card backgrounds
-   use --panel-bg (semi-transparent) so the grid blends through.
-*/
-
-/* Box model */
+/* Base invariata dal tuo file (sezioni iniziali) */
 *, *::before, *::after { box-sizing: border-box; }
-
-/* Ensure root & body cover viewport/document */
 html, body { min-height: 100%; height: auto; }
 
-/* Put page-level background on html so it always fills the viewport/document */
 html {
-  /* Base background (radial + radial + linear) — same visuals as before */
   background:
     radial-gradient(1200px 600px at 10% -10%, rgba(0,255,163,.08), transparent 60%),
     radial-gradient(900px 500px at 110% 10%, rgba(52,255,209,.08), transparent 60%),
     linear-gradient(180deg,var(--bg-1),var(--bg-0));
   background-repeat: no-repeat;
-  /* keep it visually fixed to avoid seams while body scrolls */
   background-attachment: fixed;
-  /* ensure the root background color matches theme's base */
   background-color: var(--bg-0);
 }
-
-/* Body keeps color text and can grow without creating gaps; make it TRANSPARENT
-   so the html background + grid overlay remain visible and consistent. */
 body{
   margin:0;
   font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
@@ -37,14 +28,9 @@ body{
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   transition: background .3s ease, color .3s ease;
-  /* IMPORTANT: allow html background to show through */
   background: transparent;
 }
 
-/* Grid overlay (uses variables so light/dark can control color & opacity)
-   Apply the grid as a fixed pseudo-element on elements that enable it.
-   If body has class "grid-bg" the pseudo-element below will display the grid.
-*/
 .grid-bg::before{
   content: "";
   position: fixed;
@@ -54,23 +40,15 @@ body{
     linear-gradient(90deg, rgba(var(--grid-color), var(--grid-opacity)) 1px, transparent 1px);
   background-size: 32px 32px;
   pointer-events: none;
-  /* place it below content but above the html background */
   z-index: 0;
 }
 
-/* Container sits above the grid overlay */
-.container {
-  position: relative;
-  z-index: 1;
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 18px 16px 40px;
-}
+.container { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 18px 16px 40px; }
 
-/* Header */
 .header { padding: 18px 0 10px; }
 .header-bar { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 8px; }
 
+/* Toggle tema: effetti ripristinati */
 .theme-toggle{
   min-width: 44px;
   height: 40px;
@@ -84,6 +62,11 @@ body{
   box-shadow: var(--shadow);
   transition: transform .12s ease, filter .15s ease, box-shadow .18s ease;
   transform-origin: center;
+}
+.theme-toggle:hover{
+  transform: scale(1.04);
+  box-shadow: 0 12px 28px rgba(0,0,0,.24), 0 0 16px var(--glow-color);
+  filter: saturate(1.05);
 }
 
 .header-spacer { width:44px; height:40px; visibility:hidden; }
@@ -102,19 +85,10 @@ body{
 .brand .name .cool{ color:var(--text); }
 .brand .love{ font-size:.9em; color:var(--accent); text-shadow:0 0 6px rgba(122,235,255,.35); }
 
-/* Panel & controls */
-/* Use --panel-bg to let theme control translucency so the grid blends through */
-.panel {
-  background: var(--panel-bg);
-  border: 1px solid rgba(0,255,163,.12);
-  border-radius: 16px;
-  padding: 14px;
-  box-shadow: var(--shadow);
-}
+.panel { background: var(--panel-bg); border: 1px solid rgba(0,255,163,.12); border-radius: 16px; padding: 14px; box-shadow: var(--shadow); }
 
 .controls { display:flex; gap:14px; align-items:flex-end; flex-wrap:nowrap; min-width:0; }
 .control { display:flex; flex-direction:column; gap:6px; flex:1 1 0; min-width:0; }
-
 .control label { font-weight:800; font-size:.92rem; letter-spacing:.4px; color:var(--text-dim); white-space:nowrap; }
 
 select, input[type="text"] {
@@ -128,23 +102,19 @@ select, input[type="text"] {
   transition: box-shadow .15s ease, border .18s ease, background .18s ease, transform .12s ease;
   width:100%; min-width:0; max-width:100%; overflow:hidden; text-overflow:ellipsis;
 }
-
 select:focus, input[type="text"]:focus {
   border-color: var(--neon);
   box-shadow: 0 0 0 3px rgba(0,255,163,.18), inset 0 -12px 18px rgba(0,0,0,.12);
   transform: translateY(-1px);
 }
-
 input::placeholder { color: var(--muted); }
 
-/* Small, subtle bounce keyframes left for optional use */
 @keyframes glow-bounce{
   0%{ transform: translateY(0) scale(1); box-shadow: var(--shadow); }
   45%{ transform: translateY(-2px) scale(1.04); box-shadow: 0 10px 24px rgba(0,0,0,.22), 0 0 18px var(--glow-color); }
   100%{ transform: translateY(0) scale(1.03); box-shadow: var(--shadow); }
 }
 
-/* Generate primary */
 .generate-row{ margin-top:12px; }
 .generate-row .btn{
   width:100%; height:50px; border-radius:12px;
@@ -154,35 +124,64 @@ input::placeholder { color: var(--muted); }
   transition: transform .12s ease, box-shadow .18s ease, filter .15s ease;
   transform-origin:center;
 }
-
-/* Keep it highlighted while hovered — subtle, minimal scaling using variable */
 .generate-row .btn:hover{
   transform: scale(var(--hover-scale));
   box-shadow: 0 12px 28px rgba(0,255,163,var(--hover-shadow-strength)), 0 0 16px var(--glow-color);
 }
-
 .generate-row .btn[disabled]{ opacity:.6; cursor:not-allowed; }
 
-/* Notices and description */
 .notice{ margin-top:10px; padding:10px 12px; border-left:4px solid var(--warn); background: rgba(255,204,102,.08); border-radius:8px; }
 .notice.error{ border-left-color: var(--error); background: rgba(255,85,119,.08); }
 
 .desc{ margin-top:12px; display:none; background:var(--bg-2); border-left:4px solid var(--neon); border-radius:10px; padding:12px 14px; }
 
+#offerDescription { margin-top: 8px; padding: 10px 12px; border-radius: 8px; background: var(--bg-2); border: 1px solid rgba(0,255,163,.06); color: var(--text); }
+#offerDescription strong { display:inline-block; font-weight:900; font-size:1.05rem; line-height:1; color:var(--text); text-shadow:0 0 6px rgba(0,0,0,0.06); }
+#offerDescription .offer-id { margin-left:8px; font-weight:700; font-size:.85rem; color:var(--text-dim); opacity:.9; }
+
 /* Results */
-/* Use panel-like background so grid shows through and edges blend */
 .results{ margin-top:14px; background: var(--panel-bg); border:1px solid rgba(0,255,163,.12); border-radius:16px; padding:10px; box-shadow:var(--shadow); }
 .results-header{ display:flex; align-items:center; justify-content:flex-end; padding:2px 4px 10px; color:var(--text-dim); font-weight:700; min-width:0; }
 .scroll{ max-height:60vh; min-height:220px; overflow:auto; padding-right:4px; }
 
 /* Cards */
-.card{ background: var(--panel-bg); border:1px solid rgba(0,255,163,.12); border-radius:12px; padding:12px; margin-bottom:10px; box-shadow:0 6px 18px rgba(0,0,0,.22); }
-.card.latest{ border-color:var(--neon); box-shadow:0 0 0 2px rgba(0,255,163,.2), 0 12px 30px rgba(0,0,0,.28); animation: pop .5s ease; }
+.card{ background: var(--panel-bg); border:1px solid rgba(0,255,163,.12); border-radius:12px; padding:12px; margin-bottom:10px; box-shadow:0 6px 18px rgba(0,0,0,.22); overflow: hidden; }
+.card.latest{ border-color:var(--neon); box-shadow:0 0 0 2px rgba(0,255,163,.2), 0 12px 30px rgba(0,0,0,.28); }
 
-@keyframes pop{ 0%{ transform: translateY(-4px); } 100%{ transform: translateY(0); } }
+/* -------------------------
+   Grid card allineata e shrinkable
+-------------------------- */
+:root{
+  --actions-col-w: 160px;
+  --action-cell-h: 48px;
+  --action-gap: 8px;
+}
+@media (max-width: 720px){ :root{ --actions-col-w: 120px; --action-cell-h: 44px; --action-gap: 6px; } }
+@media (max-width: 480px){ :root{ --actions-col-w: 100px; --action-cell-h: 40px; --action-gap: 6px; } }
 
-/* Meta tags (timestamp, offer id, sim) */
-.meta{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; color:var(--text-dim); font-size:.92rem; margin-bottom:8px; min-width:0; }
+.card-grid{
+  display: grid;
+  grid-template-columns: minmax(0,1fr) minmax(96px, var(--actions-col-w)); /* destra shrinkable */
+  grid-template-rows: var(--action-cell-h) var(--action-cell-h) auto;     /* META, LINK, JSON */
+  column-gap: 12px;
+  row-gap: var(--action-gap);
+  align-items: stretch;
+}
+
+.card-main{ display: contents; } /* consente alle righe sinistre di allinearsi con le azioni */
+
+/* -------------------------
+   META (timestamp, offerId, SIM)
+-------------------------- */
+.meta-row, .meta{
+  grid-column: 1; grid-row: 1;
+  min-height: var(--action-cell-h);
+  margin: 0;
+  display: flex; align-items: center; gap: 8px;
+}
+
+.meta-left{ min-height: var(--action-cell-h); display:flex; align-items:center; gap:8px; min-width:0; }
+
 .tag{
   display:inline-flex; align-items:center; gap:6px; padding:4px 8px;
   border-radius:999px;
@@ -190,64 +189,153 @@ input::placeholder { color: var(--muted); }
   border: 1px solid rgba(0,255,163,.18);
   color: var(--text);
   font-weight:700;
-  max-width:100%;
+  font-size:.86rem;
   line-height:1.2;
   flex:0 0 auto;
   transition: transform .12s ease, box-shadow .18s ease, border-color .18s ease;
   transform-origin:center;
 }
-
-/* Tag highlight while hovered */
 .tag:hover{
   transform: scale(1.02);
   border-color: rgba(0,255,163,.28);
   box-shadow: 0 10px 24px rgba(0,0,0,.20), 0 0 14px var(--glow-color);
 }
-
 .tag .dot{ width:8px; height:8px; border-radius:999px; background:var(--neon); filter: drop-shadow(0 0 12px rgba(0,255,163,.25)); flex:0 0 auto; }
 
-/* OfferID marquee */
-.tag.long{
-  flex:0 1 auto; max-width:var(--offerid-max); min-width:0;
-  position:relative; overflow:hidden; white-space:nowrap; align-items:center;
+/* Altezza come le celle azioni */
+.meta-left .tag{
+  height: var(--action-cell-h);
+  padding: 0 12px;
+  display: inline-flex;
+  align-items: center;
 }
-.tag.long .mview{ display:block; width:100%; overflow:hidden; white-space:nowrap; min-height:0; max-height:none; }
+
+/* Timestamp leggibile */
+.tag.ts{ font-variant-numeric: tabular-nums; letter-spacing: .2px; }
+
+/* OfferID elastico + marquee */
+.meta-left .offerid,
+.meta-left .tag.long{
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: var(--offerid-max);
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.tag.long .mview{ display:block; width:100%; overflow:hidden; white-space:nowrap; }
 .tag.long .track{ display:inline-block; white-space:nowrap; will-change:transform; }
 .tag.long .copy{ display:inline-block; padding-right:32px; }
 .tag.long.marquee .track{ animation: tag-marquee var(--tag-duration, 12s) linear infinite; }
 .tag.long.marquee:hover .track{ animation-play-state: paused; }
+
 @keyframes tag-marquee{ 0%{ transform: translateX(0); } 100%{ transform: translateX(calc(-1 * var(--tag-distance, 0px))); } }
-.tag.long.marquee::before,
-.tag.long.marquee::after{ content:""; position:absolute; top:0; bottom:0; width:14px; pointer-events:none; }
-.tag.long.marquee::before{ left:0; background:linear-gradient(90deg,var(--bg-3),transparent); }
-.tag.long.marquee::after{ right:0; background:linear-gradient(270deg,var(--bg-3),transparent); }
 
-/* Buttons small / theme toggle / trash: subtle highlight */
-.btn-small, .trash-btn, .theme-toggle{
-  transition: transform .12s ease, box-shadow .18s ease, filter .15s ease, border-color .18s ease;
+/* -------------------------
+   LINK (riga 2)
+-------------------------- */
+.link-row{
+  grid-column: 1; grid-row: 2;
+  min-height: var(--action-cell-h); height: var(--action-cell-h);
+  display:flex; align-items:center; margin:0;
+}
+.links-scroll{
+  min-width:0; max-width:100%;
+  overflow:hidden; white-space:nowrap;
+  display:flex; align-items:center;
+}
+.links-scroll a,
+.links-scroll .copy a{
+  color: var(--link);
+  font-weight: 800;
+  text-decoration: none;
+  filter: drop-shadow(0 0 12px rgba(0,255,163,.25));
+}
+.links-scroll a:hover,
+.links-scroll .copy a:hover{
+  text-decoration: underline;
+  box-shadow: 0 8px 20px rgba(0,0,0,.16), 0 0 10px var(--glow-color);
+}
+
+/* Link marquee */
+.links-scroll.links-marquee .lview{ display:flex; align-items:center; width:100%; overflow:hidden; }
+.links-scroll.links-marquee .lview .track{ display:inline-flex; align-items:center; will-change:transform; animation: links-marquee var(--link-duration,12s) linear infinite; }
+.links-scroll.links-marquee:hover .lview .track{ animation-play-state: paused; }
+.links-scroll.links-marquee .copy{ display:inline-flex; align-items:center; padding-right:24px; }
+
+@keyframes links-marquee { 0%{ transform: translateX(0); } 100%{ transform: translateX(calc(-1 * var(--link-distance, 0px))); } }
+
+/* -------------------------
+   Colonna azioni 2x2
+-------------------------- */
+.card-actions{
+  grid-column: 2; grid-row: 1 / span 2;       /* occupa META + LINK */
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  row-gap: var(--action-gap);
+  column-gap: 8px;
+  height: calc((var(--action-cell-h) * 2) + var(--action-gap));
+  align-content: start;
+  align-items: stretch; justify-items: stretch;
+}
+.card-actions > button{
+  width:100%; height:100%;
+  box-sizing:border-box; line-height:1;
+  padding:0 10px;
+  border-radius:8px; font-weight:800; font-size:.88rem;
+  border:1px solid rgba(0,255,163,.12); background:var(--bg-1); color:var(--text);
+}
+.card-actions > button:nth-child(1){ grid-column:1; grid-row:1; }
+.card-actions > button:nth-child(2){ grid-column:2; grid-row:1; }
+.card-actions > button:nth-child(3){ grid-column:1; grid-row:2; }
+.card-actions > button:nth-child(4){ grid-column:2; grid-row:2; }
+
+.card-actions > .open-first,
+.card-actions > .btn-small.primary{ background: var(--btn-grad); color:#02201a; border:none; }
+
+/* ✕ cestino: glow/hover ripristinati + icona vettoriale */
+.card-actions .trash-single{
+  position: relative;
+  font-size: 0;
+  display:inline-flex; align-items:center; justify-content:center;
   border:1px solid rgba(0,255,163,.18);
+  background: var(--bg-1); color: var(--text);
+  font-weight:900; border-radius:12px; box-shadow: var(--shadow); cursor:pointer;
+  transition: transform .12s ease, box-shadow .15s ease, background .12s ease, filter .15s ease;
+}
+.card-actions .trash-single:hover{
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 14px 34px rgba(0,0,0,.32), 0 0 14px var(--glow-color);
+  filter: saturate(1.05);
+}
+.card-actions .trash-single::before{
+  content:""; display:inline-block; width:18px; height:18px; background: currentColor;
+  -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>') center/contain no-repeat;
+          mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>') center/contain no-repeat;
+}
+@media (max-width: 480px){
+  .card-actions .trash-single::before{ width:20px; height:20px; }
+}
+
+/* -------------------------
+   JSON full width
+-------------------------- */
+.card-grid > pre.json{
+  grid-column: 1 / -1;
+  grid-row: 3;
+  margin-top: 12px;
+  max-height: 220px;
+  overflow: auto;
   background: var(--bg-1);
-  color: var(--text);
-  transform-origin:center;
+  border: 1px solid rgba(0,255,163,.06);
+  border-radius: 8px;
+  padding: 8px;
+  font-size: 0.9rem;
 }
-.btn-small:hover, .trash-btn:hover, .theme-toggle:hover{
-  transform: scale(1.02);
-  box-shadow: 0 10px 24px rgba(0,0,0,.18), 0 0 12px var(--glow-color);
-  filter: saturate(1.03);
-}
-.btn-small.primary{ background: var(--btn-grad); border:none; color:#02201a; }
 
-/* Trash button specifics */
-.trash-btn{ display:inline-flex; align-items:center; justify-content:center; min-width:44px; height:40px; padding:0 12px; gap:8px; border-radius:12px; box-shadow:var(--shadow); }
-.trash-btn .num{ display:inline-flex; align-items:center; justify-content:center; min-width:22px; height:22px; padding:0 6px; border-radius:999px; background: rgba(0,255,163,.12); border:1px solid rgba(0,255,163,.28); color:var(--text); font-size:.9rem; line-height:1; }
-.trash-btn[disabled]{ opacity:.5; cursor:not-allowed; }
-.trash-btn .num.bump{ animation: badge-pop .38s ease; }
-@keyframes badge-pop{ 0%{ transform:scale(1); } 30%{ transform:scale(1.18); } 100%{ transform:scale(1); } }
-
-/* Links list */
+/* Link utility */
 .links-list{ display:grid; gap:8px; margin:6px 0 8px; }
-
-/* Links remain highlighted while hovered — minimal scale + glow */
 .links-list a{
   color: var(--link);
   text-decoration: none;
@@ -264,14 +352,14 @@ input::placeholder { color: var(--muted); }
   box-shadow: 0 8px 20px rgba(0,0,0,.16), 0 0 10px var(--glow-color);
 }
 
-/* Actions and misc */
-.actions{ display:flex; gap:8px; justify-content:flex-end; flex-wrap:wrap; }
-.btn-small{ height:38px; padding:0 12px; border-radius:10px; cursor:pointer; }
+/* Toolbar cestino (esterno) – invariata */
+.trash-btn{ display:inline-flex; align-items:center; justify-content:center; min-width:44px; height:40px; padding:0 12px; gap:8px; border-radius:12px; box-shadow:var(--shadow); border:1px solid rgba(0,255,163,.18); background:var(--bg-1); color:var(--text); }
+.trash-btn .num{ display:inline-flex; align-items:center; justify-content:center; min-width:22px; height:22px; padding:0 6px; border-radius:999px; background: rgba(0,255,163,.12); border:1px solid rgba(0,255,163,.28); color:var(--text); font-size:.9rem; line-height:1; }
+.trash-btn[disabled]{ opacity:.5; cursor:not-allowed; }
+@keyframes badge-pop{ 0%{ transform:scale(1); } 30%{ transform:scale(1.18); } 100%{ transform:scale(1); } }
+.trash-btn .num.bump{ animation: badge-pop .38s ease; }
 
-/* Pre blocks */
-pre{ background: var(--panel-bg); border:1px solid rgba(0,255,163,.12); border-radius:10px; padding:10px; overflow:auto; max-height:260px; margin:6px 0 0; }
-
-/* Responsive */
+/* Responsive controlli extra */
 @media (max-width:980px){ .controls{ flex-wrap:wrap } .control{ flex:1 1 calc(50% - 7px) } }
 @media (max-width:560px){
   .control{ flex:1 1 100% }
@@ -279,15 +367,742 @@ pre{ background: var(--panel-bg); border:1px solid rgba(0,255,163,.12); border-r
   .theme-toggle, .header-spacer{ height:38px; min-width:40px }
 }
 
-/* Respect user preference for reduced motion */
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce){
+  .theme-toggle:hover,
   .generate-row .btn:hover,
-  .btn-small:hover, .trash-btn:hover, .theme-toggle:hover,
+  .btn-small:hover, .trash-btn:hover,
+  .card-actions .trash-single:hover,
   .tag:hover,
-  .links-list a:hover{
+  .links-list a:hover,
+  .tag.long.marquee .track, .links-scroll.links-marquee .lview .track {
     animation: none !important;
     transform: none !important;
     box-shadow: none !important;
     filter: none !important;
   }
 }
+/* === Append: restore/align button animations inside .card-actions === */
+
+/* Base transitions per tutti i bottoni nella griglia azioni */
+.card-actions > button,
+.card-actions .trash-single{
+  transition:
+    transform .12s ease,
+    box-shadow .18s ease,
+    filter .15s ease,
+    border-color .18s ease,
+    background-color .18s ease;
+}
+
+/* Hover/glow uniforme (default) */
+.card-actions > button:hover,
+.card-actions .trash-single:hover{
+  transform: scale(1.02);
+  box-shadow: 0 10px 24px rgba(0,0,0,.20), 0 0 12px var(--glow-color);
+  filter: saturate(1.03);
+  border-color: rgba(0,255,163,.28);
+}
+
+/* APRI un filo più “forte” in hover */
+.card-actions > .open-first:hover{
+  transform: scale(1.03);
+  box-shadow: 0 12px 28px rgba(0,255,163,.22), 0 0 16px var(--glow-color);
+  filter: saturate(1.05);
+}
+
+/* Cestino: conserva il glow più marcato che avevi già richiesto */
+.card-actions .trash-single:hover{
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 14px 34px rgba(0,0,0,.32), 0 0 14px var(--glow-color);
+}
+
+/* Stato attivo (press) leggero e coerente */
+.card-actions > button:active,
+.card-actions .trash-single:active{
+  transform: scale(0.99);
+  box-shadow: 0 6px 16px rgba(0,0,0,.20);
+  filter: saturate(1.0);
+}
+
+/* Focus visibile accessibile */
+.card-actions > button:focus-visible,
+.card-actions .trash-single:focus-visible{
+  outline: 2px solid rgba(0,255,163,.35);
+  outline-offset: 2px;
+}
+
+/* Preferenze riduzione movimento: disattiva animazioni e trasformazioni */
+@media (prefers-reduced-motion: reduce){
+  .card-actions > button:hover,
+  .card-actions .trash-single:hover,
+  .card-actions > button:active,
+  .card-actions .trash-single:active{
+    transform: none !important;
+    box-shadow: none !important;
+    filter: none !important;
+  }
+}
+
+/* === Append: effetti bottoni ripristinati + colonna azioni shrinkable senza tagli === */
+
+/* 1) Colonna azioni ancora più adattiva: destra può scendere fino a 84px senza tagliare */
+.card-grid{
+  grid-template-columns: minmax(0,1fr) minmax(84px, var(--actions-col-w)) !important;
+}
+
+/* 2) Evita min-width implicite che impediscono lo shrink */
+.card-actions{ min-width: 0; }
+.card-actions > button,
+.card-actions .trash-single{ min-width: 0; white-space: nowrap; }
+
+/* 3) Bottoni fluidi: font-size e padding si riducono su schermi stretti */
+.card .card-actions > button,
+.card .card-actions .trash-single{
+  font-size: clamp(12px, 2.8vw, 0.88rem);
+  padding: 0 clamp(6px, 1.8vw, 10px);
+  transition:
+    transform .12s ease,
+    box-shadow .18s ease,
+    filter .15s ease,
+    border-color .18s ease,
+    background-color .18s ease;
+}
+
+/* 4) Hover/glow ripristinati (specificità alta dentro le card) */
+.card .card-actions > button:hover,
+.card .card-actions .trash-single:hover{
+  transform: scale(1.02);
+  box-shadow: 0 10px 24px rgba(0,0,0,.20), 0 0 12px var(--glow-color);
+  filter: saturate(1.03);
+  border-color: rgba(0,255,163,.28);
+}
+
+/* APRI un filo più marcato */
+.card .card-actions > .open-first:hover{
+  transform: scale(1.03);
+  box-shadow: 0 12px 28px rgba(0,255,163,.22), 0 0 16px var(--glow-color);
+  filter: saturate(1.05);
+}
+
+/* Cestino: mantieni anche il piccolo lift già introdotto */
+.card .card-actions .trash-single:hover{
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 14px 34px rgba(0,0,0,.32), 0 0 14px var(--glow-color);
+}
+
+/* Active press e focus accessibile */
+.card .card-actions > button:active,
+.card .card-actions .trash-single:active{
+  transform: scale(0.99);
+  box-shadow: 0 6px 16px rgba(0,0,0,.20);
+  filter: none;
+}
+.card .card-actions > button:focus-visible,
+.card .card-actions .trash-single:focus-visible{
+  outline: 2px solid rgba(0,255,163,.35);
+  outline-offset: 2px;
+}
+
+/* 5) Micro-tuning su schermi molto stretti: riduci gap per guadagnare spazio e evita tagli */
+@media (max-width: 420px){
+  .card-grid{ column-gap: 8px !important; }
+  .card-actions{
+    column-gap: 6px !important;
+    row-gap: var(--action-gap) !important; /* mantiene l’allineamento tra righe */
+  }
+}
+
+/* 6) Respect reduced motion (coerente col resto del file) */
+@media (prefers-reduced-motion: reduce){
+  .card .card-actions > button:hover,
+  .card .card-actions .trash-single:hover,
+  .card .card-actions > button:active,
+  .card .card-actions .trash-single:active{
+    transform: none !important;
+    box-shadow: none !important;
+    filter: none !important;
+  }
+}
+
+/* === Append: cestino glow+salto, bottoni con effetti, shrink senza tagli, timestamp hidden su mobile === */
+
+/* 1) Colonna azioni più adattiva: permette shrink senza tagli (riduce fino a 80/76px su viewports stretti) */
+.card-grid{
+  grid-template-columns: minmax(0,1fr) minmax(80px, var(--actions-col-w)) !important;
+}
+@media (max-width: 380px){
+  .card-grid{
+    grid-template-columns: minmax(0,1fr) minmax(76px, var(--actions-col-w)) !important;
+  }
+}
+
+/* 2) Evita limiti di shrink interni e gestisci overflow testo sui bottoni */
+.card-actions{ min-width: 0; }
+.card .card-actions > button,
+.card .card-actions .trash-single{
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 3) Bottoni fluidi (font/padding si riducono al bisogno) */
+.card .card-actions > button,
+.card .card-actions .trash-single{
+  font-size: clamp(12px, 2.8vw, 0.88rem);
+  padding: 0 clamp(6px, 1.8vw, 10px);
+  transition:
+    transform .12s ease,
+    box-shadow .18s ease,
+    filter .15s ease,
+    border-color .18s ease,
+    background-color .18s ease;
+}
+
+/* 4) Hover/glow uniforme per APRI, COPIA, JSON? */
+.card .card-actions > button:hover{
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 10px 24px rgba(0,0,0,.20), 0 0 12px var(--glow-color);
+  filter: saturate(1.03);
+  border-color: rgba(0,255,163,.28);
+}
+/* APRI un filo più marcato */
+.card .card-actions > .open-first:hover{
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 12px 28px rgba(0,255,163,.22), 0 0 16px var(--glow-color);
+  filter: saturate(1.05);
+}
+
+/* 5) Cestino: elimina doppia X e aggiungi glow+salto */
+.card .card-actions .trash-single{
+  font-size: 0 !important;     /* nasconde il carattere '✕' del markup */
+  line-height: 0 !important;
+}
+.card .card-actions .trash-single:hover{
+  transform: translateY(-3px) scale(1.035);
+  box-shadow: 0 14px 34px rgba(0,0,0,.32), 0 0 14px var(--glow-color);
+  filter: saturate(1.06);
+}
+.card .card-actions .trash-single:active{
+  transform: translateY(-1px) scale(0.995);
+  box-shadow: 0 8px 18px rgba(0,0,0,.24);
+}
+
+/* 6) Focus visibile accessibile */
+.card .card-actions > button:focus-visible,
+.card .card-actions .trash-single:focus-visible{
+  outline: 2px solid rgba(0,255,163,.35);
+  outline-offset: 2px;
+}
+
+/* 7) Micro-tuning su schermi molto stretti: riduci gap tra bottoni per guadagnare spazio */
+@media (max-width: 420px){
+  .card-grid{ column-gap: 8px !important; }
+  .card-actions{ column-gap: 6px !important; }
+}
+
+/* 8) Mobile: nascondi il timestamp per dare spazio a offerId e SIM */
+@media (max-width: 560px){
+  .meta-left .tag.ts{ display: none !important; }
+}
+
+/* 9) Preferenze riduzione movimento */
+@media (prefers-reduced-motion: reduce){
+  .card .card-actions > button:hover,
+  .card .card-actions .trash-single:hover,
+  .card .card-actions > button:active,
+  .card .card-actions .trash-single:active{
+    transform: none !important;
+    box-shadow: none !important;
+    filter: none !important;
+  }
+}
+
+/* === Append: clearAllBtn glow + auto-shrink etichette APRI/COPIA/JSON (no ellissi), doppia X fix === */
+
+/* 0) Colonna azioni: abilita container queries per ridurre dinamicamente il font dei bottoni */
+.card .card-actions{
+  container-type: inline-size; /* abilita unità cqw in base alla larghezza della colonna azioni */
+}
+
+/* 1) I bottoni della colonna azioni riducono font/padding al diminuire della larghezza colonna
+      (evita overflow del testo COPIA/JSON). Niente ellissi: il testo resta visibile e si rimpicciolisce. */
+.card .card-actions > button,
+.card .card-actions .trash-single{
+  /* rimuovi ellissi/overflow forzato */
+  overflow: visible;
+  text-overflow: clip;
+  white-space: nowrap;
+
+  /* auto-shrink: 1cqw = 1% della larghezza della colonna azioni */
+  font-size: clamp(11px, 9cqw, 0.95rem);
+  padding: 0 clamp(6px, 2cqw, 10px);
+
+  /* transizioni/hover coerenti con il resto */
+  transition:
+    transform .12s ease,
+    box-shadow .18s ease,
+    filter .15s ease,
+    border-color .18s ease,
+    background-color .18s ease;
+}
+
+/* 1.1) APRI un filo più marcato in hover */
+.card .card-actions > .open-first:hover{
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 12px 28px rgba(0,255,163,.22), 0 0 16px var(--glow-color);
+  filter: saturate(1.05);
+}
+
+/* 1.2) Hover standard per gli altri bottoni (Copia/JSON) */
+.card .card-actions > button:hover{
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 10px 24px rgba(0,0,0,.20), 0 0 12px var(--glow-color);
+  filter: saturate(1.03);
+  border-color: rgba(0,255,163,.28);
+}
+
+/* 2) Cestino nelle card: niente doppia X (testo nascosto), glow + piccolo “salto” */
+.card .card-actions .trash-single{
+  font-size: 0 !important;      /* nasconde il carattere '✕' del markup, resta la mask SVG */
+  line-height: 0 !important;
+}
+.card .card-actions .trash-single:hover{
+  transform: translateY(-3px) scale(1.035);
+  box-shadow: 0 14px 34px rgba(0,0,0,.32), 0 0 14px var(--glow-color);
+  filter: saturate(1.06);
+}
+.card .card-actions .trash-single:active{
+  transform: translateY(-1px) scale(0.995);
+  box-shadow: 0 8px 18px rgba(0,0,0,.24);
+}
+
+/* 2.1) Focus accessibile */
+.card .card-actions > button:focus-visible,
+.card .card-actions .trash-single:focus-visible{
+  outline: 2px solid rgba(0,255,163,.35);
+  outline-offset: 2px;
+}
+
+/* 3) clearAllBtn (toolbar cestino in alto): ripristina glow/hover anche qui */
+#clearAllBtn,
+.trash-btn{
+  transition:
+    transform .12s ease,
+    box-shadow .18s ease,
+    filter .15s ease,
+    border-color .18s ease,
+    background-color .18s ease;
+}
+#clearAllBtn:hover,
+.trash-btn:hover{
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 12px 28px rgba(0,0,0,.24), 0 0 16px var(--glow-color);
+  filter: saturate(1.05);
+  border-color: rgba(0,255,163,.28);
+}
+#clearAllBtn:active,
+.trash-btn:active{
+  transform: scale(0.99);
+  box-shadow: 0 8px 18px rgba(0,0,0,.22);
+}
+
+/* 4) Colonna azioni ancora più adattiva su schermi stretti per evitare tagli */
+.card-grid{
+  grid-template-columns: minmax(0,1fr) minmax(80px, var(--actions-col-w)) !important;
+}
+@media (max-width: 380px){
+  .card-grid{
+    grid-template-columns: minmax(0,1fr) minmax(76px, var(--actions-col-w)) !important;
+  }
+}
+
+/* 5) Riduci leggermente il gap su device molto stretti per guadagnare spazio */
+@media (max-width: 420px){
+  .card-grid{ column-gap: 8px !important; }
+  .card .card-actions{ column-gap: 6px !important; }
+}
+
+/* 6) Rispetta reduced motion */
+@media (prefers-reduced-motion: reduce){
+  #clearAllBtn:hover, .trash-btn:hover,
+  .card .card-actions > button:hover,
+  .card .card-actions .trash-single:hover,
+  #clearAllBtn:active, .trash-btn:active,
+  .card .card-actions > button:active,
+  .card .card-actions .trash-single:active{
+    transform: none !important;
+    box-shadow: none !important;
+    filter: none !important;
+  }
+}
+
+/* === Append: dimensione testo unificata tra META (ts/offerId/SIM) e action buttons === */
+
+/* 1) La card diventa il container di riferimento */
+.card-grid{
+  container: card / inline-size;             /* abilita cqw per l’intera card */
+  --ui-fs: clamp(11px, 2.9cqw, 0.95rem);     /* dimensione testo condivisa */
+}
+
+/* 2) La colonna azioni NON è più un container separato
+      (così i bottoni usano la stessa scala di .card-grid) */
+.card .card-actions{
+  container: normal !important;
+}
+
+/* 3) Applica la stessa dimensione ai bottoni (APRI, COPIA, JSON?, ✕) */
+.card .card-actions > button,
+.card .card-actions .trash-single{
+  font-size: var(--ui-fs) !important;
+}
+
+/* 4) Applica la stessa dimensione alle tag META: timestamp, offerId (anche copie marquee), SIM */
+.meta-left .tag,
+.meta-left .tag.ts,
+.meta-left .tag.long,
+.meta-left .offerid,
+.tag.long .mview,
+.tag.long .copy,
+.tag.long .inner{
+  font-size: var(--ui-fs) !important;
+  line-height: 1.15; /* leggibilità nelle pill tags */
+}
+
+/* Nota: il pallino .dot nelle tag resta alla dimensione attuale (non scalato),
+   se lo preferisci leggermente più piccolo/grande, puoi legarlo a em:
+   .tag .dot{ width:.6em; height:.6em; } */
+
+   /* === Append finale: fix doppia X + shrink coerente dei testi APRI/COPIA/JSON + colonna azioni più adattiva === */
+
+/* 0) La card è il container tipografico; una sola variabile di scala per tutta la card */
+.card-grid{
+  container: card / inline-size !important;           /* abilita cqw per tutta la card */
+  /* scala condivisa: scende fino a 9px quando lo spazio è davvero poco */
+  --ui-fs: clamp(9px, 2.5cqw, 0.95rem) !important;
+  /* colonna azioni il più adattiva possibile senza tagliare le icone */
+  grid-template-columns: minmax(0,1fr) minmax(72px, var(--actions-col-w)) !important;
+}
+
+/* 1) Bottoni colonna azioni: usano la stessa scala della card, senza overflow */
+.card .card-actions > button,
+.card .card-actions .trash-single{
+  font-size: var(--ui-fs) !important;
+  padding: 0 clamp(4px, 1.6cqw, 10px) !important;
+  white-space: nowrap;
+  overflow: hidden;          /* impedisce debordamenti visivi */
+  text-overflow: clip;       /* niente ellissi: la dimensione scende invece di tagliare */
+}
+
+/* 1.1) Spazio extra in situazioni estremamente strette */
+@media (max-width: 380px){
+  .card-grid{ column-gap: 8px !important; }
+  .card .card-actions{ column-gap: 6px !important; }
+}
+
+/* 2) Cestino nelle card: elimina “doppia X” e mantieni solo l’icona SVG del ::before */
+.card .card-actions .trash-single{
+  font-size: 0 !important;     /* nasconde il glifo '✕' del testo */
+  line-height: 0 !important;
+  text-indent: -9999px;        /* ulteriore sicurezza contro reflow del testo */
+}
+.card .card-actions .trash-single::before{
+  content: "";                  /* icona vettoriale già definita sopra nel file */
+  display: inline-block;
+  width: 18px; height: 18px;
+  /* la mask SVG è già in precedenti regole: non la ripeto qui per non duplicare */
+}
+/* Hover “salto + glow” mantenuto */
+.card .card-actions .trash-single:hover{
+  transform: translateY(-3px) scale(1.035);
+  box-shadow: 0 14px 34px rgba(0,0,0,.32), 0 0 14px var(--glow-color);
+  filter: saturate(1.06);
+}
+.card .card-actions .trash-single:active{
+  transform: translateY(-1px) scale(0.995);
+  box-shadow: 0 8px 18px rgba(0,0,0,.24);
+}
+
+/* 3) Etichette META (timestamp, offerId, SIM) allineate alla stessa scala dei bottoni */
+.meta-left .tag,
+.meta-left .tag.ts,
+.meta-left .tag.long,
+.meta-left .offerid,
+.tag.long .mview,
+.tag.long .copy,
+.tag.long .inner{
+  font-size: var(--ui-fs) !important;
+  line-height: 1.15;
+}
+/* opzionale: fai scalare anche il pallino in base al font */
+.meta-left .tag .dot{ width: .7em; height: .7em; }
+
+/* 4) APRI un filo più marcato in hover (gli altri mantengono hover standard) */
+.card .card-actions > .open-first:hover{
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 12px 28px rgba(0,255,163,.22), 0 0 16px var(--glow-color);
+  filter: saturate(1.05);
+}
+.card .card-actions > button:hover{
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 10px 24px rgba(0,0,0,.20), 0 0 12px var(--glow-color);
+  filter: saturate(1.03);
+  border-color: rgba(0,255,163,.28);
+}
+
+/* 5) Preferenze riduzione movimento coerenti */
+@media (prefers-reduced-motion: reduce){
+  .card .card-actions > button:hover,
+  .card .card-actions .trash-single:hover,
+  .card .card-actions > button:active,
+  .card .card-actions .trash-single:active{
+    transform: none !important;
+    box-shadow: none !important;
+    filter: none !important;
+  }
+}
+
+/* === Append: testo bottoni scala insieme alla colonna azioni + fix doppia X === */
+
+/* Rendi la colonna azioni un container per usare le unità cqw basate sulla SUA larghezza. */
+.card .card-actions{
+  container-type: inline-size;
+  container-name: actions;
+}
+
+/* Testo dei bottoni dentro la colonna azioni:
+   - scala con la larghezza della colonna (cqw)
+   - padding si adatta per non far clippar nulla
+   - niente overflow visivo
+*/
+.card .card-actions > button,
+.card .card-actions .trash-single{
+  /* scala condivisa: più piccola quando lo spazio è minimo */
+  font-size: clamp(10px, 9cqw, 0.95rem);
+  padding: 0 clamp(6px, 2cqw, 12px);
+  white-space: nowrap;
+  overflow: hidden;       /* impedisce “bava” fuori bottone */
+  text-overflow: clip;    /* non ellissi: contiamo sulla riduzione del font */
+  line-height: 1.05;      /* compattiamo leggermente la riga */
+  transition:
+    transform .12s ease,
+    box-shadow .18s ease,
+    filter .15s ease,
+    border-color .18s ease,
+    background-color .18s ease;
+}
+
+/* Copia/JSON: quando la colonna è molto stretta, riduci un po’ il peso e lo spacing per farle stare sempre. */
+@container actions (max-width: 150px){
+  .card .card-actions > button{
+    font-weight: 750;
+    letter-spacing: 0;
+    padding: 0 clamp(4px, 1.6cqw, 10px);
+  }
+}
+@container actions (max-width: 120px){
+  .card .card-actions > button{
+    font-size: clamp(9px, 8cqw, 0.9rem);
+    padding: 0 clamp(3px, 1.2cqw, 8px);
+  }
+}
+
+/* APRI un filo più marcato in hover; gli altri mantengono hover standard. */
+.card .card-actions > .open-first:hover{
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 12px 28px rgba(0,0,0,.22), 0 0 16px var(--glow-color);
+  filter: saturate(1.05);
+}
+.card .card-actions > button:hover{
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 10px 24px rgba(0,0,0,.20), 0 0 12px var(--glow-color);
+  filter: saturate(1.03);
+  border-color: rgba(0,255,163,.28);
+}
+
+/* Doppia X: azzera SEMPRE il testo del bottone cestino, resta solo l’icona SVG nel ::before. */
+.card .card-actions > .trash-single,
+.card .card-actions .trash-single{
+  font-size: 0 !important;
+  line-height: 0 !important;
+  text-indent: -9999px !important;
+}
+.card .card-actions .trash-single::before{
+  content: "";
+  display: inline-block;
+  width: 18px; height: 18px;
+  background: currentColor;
+  /* mask SVG completa per evitare dipendenza da regole precedenti */
+  -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>') center/contain no-repeat;
+          mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>') center/contain no-repeat;
+}
+/* Glow + salto sul cestino (resta coerente con gli altri bottoni) */
+.card .card-actions .trash-single:hover{
+  transform: translateY(-3px) scale(1.035);
+  box-shadow: 0 14px 34px rgba(0,0,0,.32), 0 0 14px var(--glow-color);
+  filter: saturate(1.06);
+}
+.card .card-actions .trash-single:active{
+  transform: translateY(-1px) scale(0.995);
+  box-shadow: 0 8px 18px rgba(0,0,0,.24);
+}
+
+/* Extra sicurezza: i contenitori non impongano min-width che blocca lo shrink. */
+.card-grid, .card .card-actions{ min-width: 0; }
+
+/* Riduci un filo il gap su telefoni molto stretti per guadagnare spazio orizzontale. */
+@media (max-width: 420px){
+  .card-grid{ column-gap: 8px; }
+  .card .card-actions{ column-gap: 6px; }
+}
+
+/* === Append: fix definitivo 56x44 — testo bottoni scala con la colonna, X singola === */
+
+/* La colonna azioni è il container per la scala tipografica (cqw) */
+.card .card-actions{
+  container-type: inline-size !important;
+  container-name: actions !important;
+  min-width: 0;
+}
+
+/* Testo dei bottoni: scala in funzione della larghezza della colonna azioni.
+   Nota: 1cqw = 1% della larghezza della colonna azioni (non del singolo bottone).
+   Usiamo valori “più aggressivi” per evitare clipping sui ~56px per bottone. */
+.card .card-actions > button,
+.card .card-actions .trash-single{
+  /* niente ellissi: preferiamo ridurre il font */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: clip;
+
+  /* scala tipografica legata alla colonna: più piccola in scenari stretti */
+  font-size: clamp(8px, 6.8cqw, 0.95rem) !important;
+
+  /* padding e metriche compatti per liberare orizzontale */
+  padding: 0 clamp(3px, 1.4cqw, 10px) !important;
+  letter-spacing: 0;
+  line-height: 1.05;
+}
+
+/* Se la colonna scende sotto ~130px, stringi ancora un pelo */
+@container actions (max-width: 130px){
+  .card .card-actions > button{
+    font-size: clamp(8px, 6.2cqw, 0.9rem) !important;
+    padding: 0 clamp(2px, 1.2cqw, 8px) !important;
+    font-weight: 750;
+  }
+}
+
+/* Soglia estrema (<116px totali ≈ 56px per bottone al netto del gap) */
+@container actions (max-width: 116px){
+  .card .card-actions > button{
+    font-size: clamp(7.5px, 5.6cqw, 0.88rem) !important;
+    padding: 0 clamp(2px, 1cqw, 6px) !important;
+    letter-spacing: -0.1px;
+  }
+}
+
+/* APRI un filo più marcato in hover; gli altri mantengono hover standard */
+.card .card-actions > .open-first:hover{
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 12px 28px rgba(0,0,0,.22), 0 0 16px var(--glow-color);
+  filter: saturate(1.05);
+}
+.card .card-actions > button:hover{
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 10px 24px rgba(0,0,0,.20), 0 0 12px var(--glow-color);
+  filter: saturate(1.03);
+  border-color: rgba(0,255,163,.28);
+}
+
+/* Doppia X: nascondi SEMPRE l’X testuale e qualsiasi pseudo residuo; resta solo l’icona ::before */
+.card .card-actions > .trash-single,
+.card .card-actions .trash-single{
+  font-size: 0 !important;
+  line-height: 0 !important;
+  text-indent: -9999px !important; /* nasconde eventuale glifo testuale */
+  color: inherit;
+  position: relative;
+}
+.card .card-actions .trash-single::after{
+  content: none !important; /* nel caso qualche stile inserisca un ::after '✕' */
+}
+/* L’icona ::before resta (già definita), mantieni il glow/salto */
+.card .card-actions .trash-single:hover{
+  transform: translateY(-3px) scale(1.035);
+  box-shadow: 0 14px 34px rgba(0,0,0,.32), 0 0 14px var(--glow-color);
+  filter: saturate(1.06);
+}
+.card .card-actions .trash-single:active{
+  transform: translateY(-1px) scale(0.995);
+  box-shadow: 0 8px 18px rgba(0,0,0,.24);
+}
+
+/* Micro-tuning su telefoni molto stretti: riduci gap per guadagnare spazio orizzontale */
+@media (max-width: 420px){
+  .card-grid{ column-gap: 8px; }
+  .card .card-actions{ column-gap: 6px; }
+}
+
+/* === Append: Scala tipografica graduale e prevedibile tra 76×48 e 56×44 per bottone === */
+
+/* La colonna azioni diventa contenitore di misura (cqw) */
+.card .card-actions{
+  container-type: inline-size !important;
+  container-name: actions !important;
+  min-width: 0;
+}
+
+/* Regola base: dolce pendenza e padding moderato */
+.card .card-actions > button,
+.card .card-actions .trash-single{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: clip;
+  line-height: 1.05;
+
+  /* pendenza di base più morbida (6.2cqw) */
+  font-size: clamp(10.5px, 6.2cqw, 0.95rem);
+  padding: 0 clamp(6px, 2cqw, 12px);
+  letter-spacing: 0;
+}
+
+/* Scala graduale con step ravvicinati (dolcissima) */
+@container actions (max-width: 180px){
+  .card .card-actions > button{ font-size: clamp(10.2px, 6.5cqw, 0.94rem); padding: 0 clamp(6px, 1.9cqw, 11px); }
+}
+@container actions (max-width: 160px){
+  .card .card-actions > button{ font-size: clamp(9.9px, 6.9cqw, 0.93rem); padding: 0 clamp(5px, 1.8cqw, 10px); }
+}
+@container actions (max-width: 146px){
+  .card .card-actions > button{ font-size: clamp(9.6px, 7.2cqw, 0.92rem); padding: 0 clamp(5px, 1.7cqw, 10px); }
+}
+@container actions (max-width: 136px){
+  .card .card-actions > button{ font-size: clamp(9.3px, 7.5cqw, 0.91rem); padding: 0 clamp(4px, 1.6cqw, 9px); }
+}
+@container actions (max-width: 126px){
+  .card .card-actions > button{ font-size: clamp(9.0px, 7.8cqw, 0.90rem); padding: 0 clamp(4px, 1.4cqw, 8px); letter-spacing: -0.1px; }
+}
+@container actions (max-width: 116px){
+  .card .card-actions > button{ font-size: clamp(8.7px, 8.2cqw, 0.88rem); padding: 0 clamp(3px, 1.2cqw, 7px); letter-spacing: -0.15px; }
+}
+@container actions (max-width: 108px){
+  .card .card-actions > button{ font-size: clamp(8.4px, 8.6cqw, 0.86rem); padding: 0 clamp(3px, 1cqw, 6px); letter-spacing: -0.2px; }
+}
+
+/* APRI un filo più marcato in hover; gli altri con hover standard (ereditato) */
+.card .card-actions > .open-first:hover{
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 12px 28px rgba(0,0,0,.22), 0 0 16px var(--glow-color);
+  filter: saturate(1.05);
+}
+
+/* Doppia X: soppressa definitivamente (rimane solo l’icona ::before) */
+.card .card-actions > .trash-single,
+.card .card-actions .trash-single{
+  font-size: 0 !important;
+  line-height: 0 !important;
+  text-indent: -9999px !important;
+}
+.card .card-actions .trash-single::after{ content: none !important; } /* nel caso qualcosa la reinserisca */
