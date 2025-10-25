@@ -20,6 +20,10 @@
 
   function setupOfferIdMarquee(tagEl){
     if(!tagEl) return;
+    // If we've already initialized, skip re-init
+    if (tagEl.dataset._marqueeInit === '1') return;
+    tagEl.dataset._marqueeInit = '1';
+
     const oldViewport = tagEl.querySelector('.mview');
     let viewport = oldViewport;
     if(!viewport){
@@ -29,8 +33,11 @@
       texts.forEach(n => viewport.appendChild(n));
       tagEl.appendChild(viewport);
     }
+    // Save original inner text to data attribute for reliable reset later
     const originalInner = viewport.querySelector('.inner');
     const rawText = originalInner ? originalInner.textContent : viewport.textContent.trim();
+    tagEl.dataset.marqueeText = rawText;
+
     viewport.innerHTML = '';
 
     const track = document.createElement('span');
@@ -44,10 +51,14 @@
       const wContainer = tagEl.clientWidth;
       const wCopy = c1.scrollWidth;
       if (wCopy <= wContainer){
+        // ensure clean non-animated state
         tagEl.classList.remove('marquee');
         viewport.innerHTML = '';
         const base = document.createElement('span'); base.className='inner'; base.textContent = rawText;
         viewport.appendChild(base);
+        // cleanup any leftover inline properties
+        viewport.style.removeProperty('--tag-distance');
+        viewport.style.removeProperty('--tag-duration');
         return;
       }
       const gap = 32;
@@ -56,6 +67,34 @@
       viewport.style.setProperty('--tag-distance', distance + 'px');
       viewport.style.setProperty('--tag-duration', duration + 's');
       tagEl.classList.add('marquee');
+    });
+  }
+
+  // Stop and reset marquee on a specific element
+  function stopOfferIdMarquee(tagEl){
+    if (!tagEl) return;
+    // remove the marquee class and rebuild the inner static view from saved text
+    tagEl.classList.remove('marquee');
+    const viewport = tagEl.querySelector('.mview') || (function(){
+      const v = document.createElement('span'); v.className='mview'; tagEl.appendChild(v); return v;
+    })();
+    // Prefer stored original text, fallback to computed text
+    const rawText = tagEl.dataset.marqueeText || (viewport.textContent || '').trim() || '';
+    // Clear track and set single inner
+    viewport.innerHTML = '';
+    const base = document.createElement('span'); base.className='inner'; base.textContent = rawText;
+    viewport.appendChild(base);
+    // remove inline css vars
+    viewport.style.removeProperty('--tag-distance');
+    viewport.style.removeProperty('--tag-duration');
+    // keep init flag for subsequent reuse
+  }
+
+  // Stop and reset marquees on all .tag.long elements
+  function stopAllOfferIdMarquees(){
+    const els = document.querySelectorAll('.tag.long');
+    els.forEach(el => {
+      try { stopOfferIdMarquee(el); } catch (e) { /* ignore */ }
     });
   }
 
@@ -100,7 +139,9 @@
       const toggleBtn = card.querySelector('[data-toggle="json"]'); const pre = card.querySelector('.json');
       if (toggleBtn) toggleBtn.addEventListener('click', ()=> { pre.style.display = pre.style.display === 'none' ? 'block' : 'none'; });
 
-      setupOfferIdMarquee(card.querySelector('.tag.long'));
+      // initialize marquee for the newly added card
+      const tagLong = card.querySelector('.tag.long');
+      if (tagLong) setupOfferIdMarquee(tagLong);
 
       itemsRef.unshift({ ts, offerId, sim, urlList, request, response, error });
       updateCountFn();
@@ -122,11 +163,113 @@
     document.body.appendChild(t); requestAnimationFrame(()=> t.style.opacity = '1'); setTimeout(()=>{ t.style.opacity = '0'; setTimeout(()=> t.remove(), 250); }, 1400);
   }
 
+  // pulseInvalid: highlight an invalid control with a pulsing red glow, but store state
+  // on the element so it can be cleared reliably by other handlers.
   function pulseInvalid(el){
     if(!el) return;
-    const o = el.style.boxShadow;
-    el.style.boxShadow = '0 0 0 4px rgba(255,85,119,.25)';
-    setTimeout(()=>{ el.style.boxShadow = o; }, 700);
+    try {
+      // if a previous pulse timeout exists, clear it first to avoid restoring an old value later
+      const prevTimer = el.dataset && el.dataset._pulseTimeout ? parseInt(el.dataset._pulseTimeout, 10) : 0;
+      if (prevTimer) {
+        try { clearTimeout(prevTimer); } catch(e) {}
+      }
+      // store original boxShadow (even if empty) so we can restore it later
+      const orig = el.style.boxShadow || '';
+      el.dataset._origBoxShadow = orig;
+      // apply pulse style
+      el.style.boxShadow = '0 0 0 4px rgba(255,85,119,.25)';
+      // schedule restore and keep id in dataset
+      const id = setTimeout(()=> {
+        try {
+          // restore original (if element still present)
+          el.style.boxShadow = el.dataset._origBoxShadow || '';
+          delete el.dataset._origBoxShadow;
+          delete el.dataset._pulseTimeout;
+        } catch(e){}
+      }, 700);
+      el.dataset._pulseTimeout = String(id);
+    } catch (e) {
+      // best-effort: ignore failures
+    }
+  }
+
+  // Clear any pending pulse on an element and remove the inline style
+  function clearPulse(el){
+    if (!el) return;
+    try {
+      const t = el.dataset && el.dataset._pulseTimeout ? parseInt(el.dataset._pulseTimeout, 10) : 0;
+      if (t) {
+        try { clearTimeout(t); } catch(e) {}
+      }
+      // remove stored dataset entries
+      if (el.dataset) {
+        delete el.dataset._pulseTimeout;
+        delete el.dataset._origBoxShadow;
+      }
+      // remove inline style to get back to CSS native style
+      el.style.boxShadow = '';
+    } catch(e){}
+  }
+
+  function pulseInvalidAndFocus(el){
+    pulseInvalid(el);
+    try { el.focus(); } catch(e){}
+  }
+
+  function pulseInvalidAuto(el){
+    pulseInvalid(el);
+    setTimeout(()=> clearPulse(el), 1200);
+  }
+
+  function pulseInvalidAutoFocus(el){
+    pulseInvalidAndFocus(el);
+    setTimeout(()=> clearPulse(el), 1200);
+  }
+
+  function pulseInvalidWarn(el){
+    // keep) same as pulseInvalid for now
+    pulseInvalid(el);
+  }
+
+  function pulseInvalidWarnAuto(el){
+    pulseInvalidWarn(el);
+    setTimeout(()=> clearPulse(el), 1200);
+  }
+
+  function pulseInvalidWarnAutoFocus(el){
+    pulseInvalidWarn(el);
+    try { el.focus(); } catch (e) {}
+    setTimeout(()=> clearPulse(el), 1200);
+  }
+
+  function pulseInvalidSimple(el){
+    pulseInvalid(el);
+    setTimeout(()=> clearPulse(el), 1000);
+  }
+
+  function pulseInvalidSilent(el){
+    pulseInvalid(el);
+    setTimeout(()=> clearPulse(el), 600);
+  }
+
+  function pulseInvalidNoRestore(el){
+    // apply and do not auto-restore (rarely used)
+    if(!el) return;
+    try {
+      el.style.boxShadow = '0 0 0 4px rgba(255,85,119,.25)';
+    } catch(e){}
+  }
+
+  function pulseInvalidRestoreNow(el){
+    clearPulse(el);
+  }
+
+  function pulseInvalidLegacy(el){
+    pulseInvalid(el);
+  }
+
+  function pulseInvalidResetAll(){
+    document.querySelectorAll('input, select, textarea, button').forEach(e => clearPulse(e));
   }
 
   // Exported API
@@ -135,6 +278,23 @@
     updateCountFactory,
     setupOfferIdMarquee,
     toast,
-    pulseInvalid
+    pulseInvalid,
+    pulseInvalidAndFocus,
+    pulseInvalidAuto,
+    pulseInvalidAutoFocus,
+    pulseInvalidWarn,
+    pulseInvalidWarnAuto,
+    pulseInvalidWarnAutoFocus,
+    pulseInvalidSimple,
+    pulseInvalidSilent,
+    pulseInvalidNoRestore,
+    pulseInvalidRestoreNow,
+    pulseInvalidLegacy,
+    pulseInvalidResetAll,
+    // marquee controls
+    stopOfferIdMarquee,
+    stopAllOfferIdMarquees,
+    // clear pulse API
+    clearPulse
   };
 })();
