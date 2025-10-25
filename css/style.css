@@ -2,11 +2,16 @@
    Layout, components and animations.
    Background moved to html and min-height rules added to prevent white gaps on mobile
    when the document grows dynamically.
+
+   NOTE: body background is intentionally TRANSPARENT so the html background (gradient)
+   and the fixed grid overlay show uniformly across the page. Panel/card backgrounds
+   use --panel-bg (semi-transparent) so the grid blends through.
 */
 
 /* Box model */
 *, *::before, *::after { box-sizing: border-box; }
 
+/* Ensure root & body cover viewport/document */
 html, body { min-height: 100%; height: auto; }
 
 /* Put page-level background on html so it always fills the viewport/document */
@@ -23,7 +28,8 @@ html {
   background-color: var(--bg-0);
 }
 
-/* Body keeps color and can grow without creating gaps; background is transparent now */
+/* Body keeps color text and can grow without creating gaps; make it TRANSPARENT
+   so the html background + grid overlay remain visible and consistent. */
 body{
   margin:0;
   font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
@@ -31,24 +37,28 @@ body{
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   transition: background .3s ease, color .3s ease;
-  /* fallback background color — body itself doesn't carry the gradient now */
-  background-color: var(--bg-0);
+  /* IMPORTANT: allow html background to show through */
+  background: transparent;
 }
 
-/* Grid overlay (unchanged) */
+/* Grid overlay (uses variables so light/dark can control color & opacity)
+   Apply the grid as a fixed pseudo-element on elements that enable it.
+   If body has class "grid-bg" the pseudo-element below will display the grid.
+*/
 .grid-bg::before{
   content: "";
   position: fixed;
   inset: 0;
   background-image:
-    linear-gradient(rgba(0,255,163,.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,255,163,.06) 1px, transparent 1px);
+    linear-gradient(rgba(var(--grid-color), var(--grid-opacity)) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--grid-color), var(--grid-opacity)) 1px, transparent 1px);
   background-size: 32px 32px;
   pointer-events: none;
+  /* place it below content but above the html background */
   z-index: 0;
 }
 
-/* Container */
+/* Container sits above the grid overlay */
 .container {
   position: relative;
   z-index: 1;
@@ -93,8 +103,9 @@ body{
 .brand .love{ font-size:.9em; color:var(--accent); text-shadow:0 0 6px rgba(122,235,255,.35); }
 
 /* Panel & controls */
+/* Use --panel-bg to let theme control translucency so the grid blends through */
 .panel {
-  background: linear-gradient(180deg, var(--bg-2), var(--bg-3));
+  background: var(--panel-bg);
   border: 1px solid rgba(0,255,163,.12);
   border-radius: 16px;
   padding: 14px;
@@ -159,12 +170,13 @@ input::placeholder { color: var(--muted); }
 .desc{ margin-top:12px; display:none; background:var(--bg-2); border-left:4px solid var(--neon); border-radius:10px; padding:12px 14px; }
 
 /* Results */
-.results{ margin-top:14px; background:var(--bg-2); border:1px solid rgba(0,255,163,.12); border-radius:16px; padding:10px; box-shadow:var(--shadow); }
+/* Use panel-like background so grid shows through and edges blend */
+.results{ margin-top:14px; background: var(--panel-bg); border:1px solid rgba(0,255,163,.12); border-radius:16px; padding:10px; box-shadow:var(--shadow); }
 .results-header{ display:flex; align-items:center; justify-content:flex-end; padding:2px 4px 10px; color:var(--text-dim); font-weight:700; min-width:0; }
 .scroll{ max-height:60vh; min-height:220px; overflow:auto; padding-right:4px; }
 
 /* Cards */
-.card{ background:var(--bg-3); border:1px solid rgba(0,255,163,.12); border-radius:12px; padding:12px; margin-bottom:10px; box-shadow:0 6px 18px rgba(0,0,0,.22); }
+.card{ background: var(--panel-bg); border:1px solid rgba(0,255,163,.12); border-radius:12px; padding:12px; margin-bottom:10px; box-shadow:0 6px 18px rgba(0,0,0,.22); }
 .card.latest{ border-color:var(--neon); box-shadow:0 0 0 2px rgba(0,255,163,.2), 0 12px 30px rgba(0,0,0,.28); animation: pop .5s ease; }
 
 @keyframes pop{ 0%{ transform: translateY(-4px); } 100%{ transform: translateY(0); } }
@@ -257,7 +269,7 @@ input::placeholder { color: var(--muted); }
 .btn-small{ height:38px; padding:0 12px; border-radius:10px; cursor:pointer; }
 
 /* Pre blocks */
-pre{ background:var(--bg-1); border:1px solid rgba(0,255,163,.12); border-radius:10px; padding:10px; overflow:auto; max-height:260px; margin:6px 0 0; }
+pre{ background: var(--panel-bg); border:1px solid rgba(0,255,163,.12); border-radius:10px; padding:10px; overflow:auto; max-height:260px; margin:6px 0 0; }
 
 /* Responsive */
 @media (max-width:980px){ .controls{ flex-wrap:wrap } .control{ flex:1 1 calc(50% - 7px) } }

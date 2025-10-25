@@ -33,6 +33,15 @@
   /* accessibility tweak: reduce animation intensity if needed via CSS var */
   --hover-scale: 1.02;
   --hover-shadow-strength: 0.18;
+
+  /* Grid / background blending (defaults for dark theme)
+     --grid-color is an RGB triplet (no alpha) so we can use rgba(var(--grid-color), var(--grid-opacity))
+  */
+  --grid-color: 0,255,163;
+  --grid-opacity: 0.06;
+
+  /* Panel background (semi-transparent so underlying grid shows through a bit) */
+  --panel-bg: rgba(12,21,20,0.78);
 }
 
 /* Default "dark" overrides (applied when you want body.dark semantics) */
@@ -47,4 +56,9 @@ body.dark {
   --muted: #6b8a86;
   --shadow: 0 10px 28px rgba(0,0,0,.4);
   --glow-color: rgba(0,255,163,.35);
+
+  /* grid + panel defaults for dark */
+  --grid-color: 0,255,163;
+  --grid-opacity: 0.06;
+  --panel-bg: rgba(12,21,20,0.78);
 }
